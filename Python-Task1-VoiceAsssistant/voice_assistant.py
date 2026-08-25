@@ -15,7 +15,7 @@ import json
 # ---------------- VOICE ENGINE ----------------
 
 engine = pyttsx3.init()
-engine.setProperty("rate", 170)
+engine.setProperty("rate", 150)
 
 
 def speak(text):
@@ -28,37 +28,31 @@ def speak(text):
 
 def listen():
     recognizer = sr.Recognizer()
-
+    
     with sr.Microphone() as source:
         print("\nListening...")
-        recognizer.adjust_for_ambient_noise(source, duration=0.5)
-
+        recognizer.adjust_for_ambient_noise(source, duration=0.8)
+        recognizer.pause_threshold = 1.0
+        
         try:
             audio = recognizer.listen(
                 source,
                 timeout=5,
-                phrase_time_limit=8
+                phrase_time_limit=10
             )
-
-            command = recognizer.recognize_google(audio)
+            
+            command = recognizer.recognize_google(audio, language='en-in')
             print("You:", command)
             return command.lower()
 
         except sr.WaitTimeoutError:
-            speak("I did not hear anything. Please try again.")
+            print("Assistant: I did not hear anything. Please try again.")
             return ""
-
         except sr.UnknownValueError:
-            speak("Sorry, I could not understand you.")
+            print("Assistant: Sorry, I could not understand you.")
             return ""
-
         except sr.RequestError:
-            speak("Speech recognition service is unavailable.")
-            return ""
-
-        except Exception as e:
-            print("Error:", e)
-            speak("Something went wrong while listening.")
+            print("Assistant: Network error, please check connection.")
             return ""
 
 
