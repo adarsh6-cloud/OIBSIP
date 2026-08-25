@@ -1,54 +1,34 @@
-\# OIBSIP Python Task 1 - Voice Assistant
+# Voice Assistant
 
+## OIBSIP Python Programming - Task 1
 
+A Python-based voice assistant that listens to spoken commands and responds using text-to-speech.
 
-\##  Project Overview
+## Features
 
-This project is a Python-based Voice Assistant developed as part of the Oasis Infobyte Internship Program (OIBSIP).
+- Voice input using microphone
+- Responds to greetings such as Hello and Hi
+- Tells the current time
+- Tells the current date
+- Performs Google web searches
+- Provides voice feedback using text-to-speech
+- Handles unclear or unrecognized speech
+- Exit command to stop the assistant
 
+## Technologies Used
 
+- Python
+- SpeechRecognition
+- PyAudio
+- pyttsx3
+- datetime
+- webbrowser
 
-The assistant listens to voice commands through the microphone, converts speech into text, processes the command, and responds using text-to-speech.
+## Installation
 
-
-
-\##  Technologies Used
-
-\- Python
-
-\- SpeechRecognition
-
-\- PyAudio
-
-\- pyttsx3
-
-
-
-\##  Features
-
-\- Voice input through microphone
-
-\- Speech-to-text conversion
-
-\- Text-to-speech response
-
-\- Responds to basic greetings
-
-\- Identifies the assistant's name
-
-\- Stops when the user says "bye", "exit", or "stop"
-
-
-
-\##  How to Run
-
-
-
-Install the required libraries:
-
-
+Install the required Python libraries:
 
 ```bash
-
-py -3.13 -m pip install SpeechRecognition pyttsx3 PyAudio
-
+pip install SpeechRecognition
+pip install PyAudio
+pip install pyttsx3
