@@ -25,37 +25,46 @@ def speak(text):
 
 
 # ---------------- LISTEN ----------------
-
 def listen():
     recognizer = sr.Recognizer()
-    
+
+    recognizer.energy_threshold = 300
+    recognizer.dynamic_energy_threshold = True
+    recognizer.pause_threshold = 0.8
+    recognizer.non_speaking_duration = 0.5
+
     with sr.Microphone() as source:
         print("\nListening...")
-        recognizer.adjust_for_ambient_noise(source, duration=0.8)
-        recognizer.pause_threshold = 1.0
-        
+
         try:
+            # Background noise ko thoda ignore karega
+            recognizer.adjust_for_ambient_noise(source, duration=0.5)
+
             audio = recognizer.listen(
                 source,
                 timeout=5,
-                phrase_time_limit=10
+                phrase_time_limit=8
             )
-            
-            command = recognizer.recognize_google(audio, language='en-in')
+
+            command = recognizer.recognize_google(
+                audio,
+                language="en-IN"
+            )
+
             print("You:", command)
-            return command.lower()
+            return command.lower().strip()
 
         except sr.WaitTimeoutError:
             print("Assistant: I did not hear anything. Please try again.")
             return ""
+
         except sr.UnknownValueError:
             print("Assistant: Sorry, I could not understand you.")
             return ""
-        except sr.RequestError:
-            print("Assistant: Network error, please check connection.")
+
+        except sr.RequestError as e:
+            print("Assistant: Network error:", e)
             return ""
-
-
 # ---------------- TIME ----------------
 
 def tell_time():
@@ -401,14 +410,19 @@ def main():
 
             calculate_expression(expression)
 
-        elif "what is" in command and any(
-            symbol in command for symbol in ["+", "-", "*", "/"]
+        elif (
+            any(symbol in command for symbol in ["+", "-", "*", "/"])
+            or "plus" in command
+            or "minus" in command
+            or "multiply" in command
+            or "times" in command
+            or "divided by" in command
         ):
 
             expression = command.replace("what is", "", 1).strip()
             calculate_expression(expression)
 
-        # -------- NOTES --------
+               # -------- NOTES --------
 
         elif command.startswith("take a note"):
             note = command.replace("take a note", "", 1).strip()
@@ -444,9 +458,13 @@ def main():
                 else:
                     speak("Please tell me what you want to open.")
 
-        # -------- CONVERSATION --------
+# -------- CONVERSATION --------
 
-        elif "how are you" in command:
+        elif (
+            "how are you" in command
+            or "how r u" in command
+            or "how are u" in command
+        ):
             speak("I am doing great. Thank you for asking!")
 
         elif "your name" in command:
@@ -459,8 +477,7 @@ def main():
             )
 
         elif "thank you" in command or "thanks" in command:
-            speak("You're welcome!")
-
+            speak("You're welcome!")       
         # -------- EXIT --------
 
         elif (
