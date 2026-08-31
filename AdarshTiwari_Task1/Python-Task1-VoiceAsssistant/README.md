@@ -333,7 +333,7 @@ Instead of crashing, the assistant provides a suitable response whenever possibl
 A screen-recorded demonstration of the project shows the Voice Assistant running and performing its implemented features.
 
 **Demo Video:**
-*Add your demo video link here.*
+https://drive.google.com/file/d/1jc42ynstF35tjcRGNrJEb7dcAjya6Vfi/view?usp=sharing
 
 ---
 
